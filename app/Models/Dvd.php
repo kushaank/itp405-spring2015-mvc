@@ -101,7 +101,7 @@ class Dvd extends Model{
     public static function validateInsertRequest($request){
         return Validator::make($request,[
 
-            'title' => 'required|min:5',
+            'title' => 'required',
             'genre' => 'required|integer',
             'label' => 'required|integer',
             'sound' => 'required|integer',
