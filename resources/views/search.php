@@ -92,6 +92,14 @@
         </div>
     </div>
 
+    <div class = " container col-md-4" >
+        <h2>Genres</h2>
+        <?php foreach($genres as $genre) : ?>
+            <br>
+            <a href="/genres/<?php echo $genre->genre_name ?>/dvds"><?php echo $genre->genre_name ?></a>
+        <?php endforeach ?>
+    </div>
+
 </div><!-- /.container -->
 
 

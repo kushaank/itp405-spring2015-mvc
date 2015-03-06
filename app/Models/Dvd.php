@@ -8,8 +8,9 @@
 namespace App\Models;
 use DB;
 use Validator;
+use Illuminate\Database\Eloquent\Model;
 
-class Dvd {
+class Dvd extends Model{
 
     public function getGenres() {
         $query = DB::table('genres')->orderBy('genre_name', 'asc');
@@ -71,5 +72,44 @@ class Dvd {
 
         return $query->get();
     }
+
+
+    public function label(){
+        return $this->belongsTo('App\Models\LabelDvd');
+    }
+
+    public function genre(){
+        return $this->belongsTo('App\Models\GenreDvd');
+    }
+
+    public function sound(){
+        return $this->belongsTo('App\Models\SoundDvd','sound_id');
+    }
+
+    public function format(){
+        return $this->belongsTo('App\Models\FormatDvd','format_id');
+    }
+
+    public function rating(){
+        return $this->belongsTo('App\Models\RatingDvd');
+    }
+
+    public static function createDvd($info){
+
+        return DB::table('dvds')->insert($info);
+    }
+    public static function validateInsertRequest($request){
+        return Validator::make($request,[
+
+            'title' => 'required|min:5',
+            'genre' => 'required|integer',
+            'label' => 'required|integer',
+            'sound' => 'required|integer',
+            'rating' => 'required|integer',
+            'format' => 'required|integer'
+
+        ]);
+    }
+
 }
 ?>

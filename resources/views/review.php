@@ -31,10 +31,10 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<?php $data= $info[0] ?>
+
 <div class="container">
     <br/>
-    <h3>Submit a review for <?php echo $data->title ?> </h3>
+    <h3>Submit a review for <?php echo $info[0]->title ?> </h3>
 
 <table class="table table-bordered">
     <tr>
@@ -48,7 +48,7 @@
     </tr>
 
         <tr>
-            <td><?php echo $data->title ?></td>
+            <td><?php echo $info[0]->title ?></td>
             <td><?php echo $info[0]->rating_name ?></td>
             <td><?php echo $info[0]->genre_name ?></td>
             <td><?php echo $info[0]->label_name ?></td>
