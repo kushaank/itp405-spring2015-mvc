@@ -31,7 +31,7 @@ class Dvd extends Model{
             ->join('labels', 'labels.id', '=', 'dvds.label_id')
             ->join('sounds', 'sounds.id', '=', 'dvds.sound_id')
             ->join('formats', 'formats.id', '=', 'dvds.format_id');
-        return $query->get();
+        return $query->first();
     }
     public function search($title, $genre, $rating) {
         $query = DB::table('dvds')->select('*', 'dvds.id AS id')

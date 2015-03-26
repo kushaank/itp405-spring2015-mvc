@@ -14,6 +14,7 @@ use App\Models\RatingDvd;
 use App\Models\GenreDvd;
 use App\Models\LabelDvd;
 use App\Models\FormatDvd;
+use App\Services\RottenTomatoes;
 
 class DVDController extends Controller {
 
@@ -47,11 +48,13 @@ class DVDController extends Controller {
 
         $reviews = (Dvd::getReviews($id));
         $ratings = array("1", "2", "3", "4","5","6","7","8","9","10");
+        $rottentomates = RottenTomatoes::search($info->title);
 
         return view('review',[
             'info' => $info,
             'reviews' => $reviews,
-            'ratings' => $ratings
+            'ratings' => $ratings,
+            'rottentomatoes' => $rottentomates
 
         ]);
     }
@@ -104,6 +107,7 @@ class DVDController extends Controller {
                 ->withErrors($validator);
         }
     }
+
 
 }
 ?>

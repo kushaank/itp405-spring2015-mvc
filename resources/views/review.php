@@ -34,7 +34,7 @@
 
 <div class="container">
     <br/>
-    <h3>Submit a review for <?php echo $info[0]->title ?> </h3>
+    <h3>Submit a review for <?php echo $info->title ?> </h3>
 
 <table class="table table-bordered">
     <tr>
@@ -45,25 +45,62 @@
         <th>Sound</th>
         <th>Format</th>
         <th>Release Date</th>
+        <?php if($rottentomatoes) : ?>
+        <th>Critic Score</th>
+        <th>Audience Score</th>
+        <th>Runtime</th>
+        <?php endif ?>
     </tr>
 
         <tr>
-            <td><?php echo $info[0]->title ?></td>
-            <td><?php echo $info[0]->rating_name ?></td>
-            <td><?php echo $info[0]->genre_name ?></td>
-            <td><?php echo $info[0]->label_name ?></td>
-            <td><?php echo $info[0]->sound_name ?></td>
-            <td><?php echo $info[0]->format_name ?></td>
-            <td><?php echo DATE_FORMAT(new DateTime($info[0]->release_date), 'm-d-Y') ?></td>
+            <td><?php echo $info->title ?></td>
+            <td><?php echo $info->rating_name ?></td>
+            <td><?php echo $info->genre_name ?></td>
+            <td><?php echo $info->label_name ?></td>
+            <td><?php echo $info->sound_name ?></td>
+            <td><?php echo $info->format_name ?></td>
+            <td><?php echo DATE_FORMAT(new DateTime($info->release_date), 'm-d-Y') ?></td>
+            <?php if($rottentomatoes) : ?>
+            <td><?php echo $rottentomatoes->ratings->critics_score ?></td>
+            <td><?php echo $rottentomatoes->ratings->audience_score ?></td>
+            <td><?php echo $rottentomatoes->runtime ?> minutes</td>
+            <?php endif ?>
         </tr>
 
 </table>
+    <?php if($rottentomatoes) : ?>
+    <div class="row">
+        <img src="<?php echo $rottentomatoes->posters->thumbnail ?>"/>
+    </div>
+    <?php endif ?>
+
+
+
+        <?php if($rottentomatoes) : ?>
+
+
+
+            <table class="table table-bordered">
+                <thead>
+                    <th>Cast</th>
+                </thead>
+
+                <tbody>
+                <?php foreach($rottentomatoes->abridged_cast as $cast):?>
+                <tr>
+                    <td><?php echo $cast->name ?></td>
+                </tr>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+
+    <?php endif ?>
 
     <div class="row">
     <div>
         <h3>Write your review</h3>
         <form role="form" method ="post" action= "/dvds/review">
-            <input type="hidden" name="id" value="<?php echo $info[0]->id; ?>">
+            <input type="hidden" name="id" value="<?php echo $info->id; ?>">
             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" >
             <div class="form-group">
                 <label for="title">Title:</label>
