@@ -9,27 +9,32 @@
 Class RottenTomatoes {
     public static function search($dvd_title)
     {
-        if(\Cache::has("rt-$dvd_title"))
+        if(\Cache::has("rottentomatoes-$dvd_title"))
         {
-            $json = \Cache::get("rt-$dvd_title");
+            $json = \Cache::get("rottentomatoes-$dvd_title");
+            $rottentomatoes = json_decode($json);
         }
+
         else
         {
             //extracting json data for the movie mentioned
             $url = 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?page=1&apikey=27uka9xff4p3h392tx249ffv&q='.urlencode($dvd_title);
             $json = file_get_contents($url);
+            $rottentomatoes = json_decode($json);
 
-            \Cache::put("rt-$dvd_title", $json, 60);
+            \Cache::put("rottentomatoes-$dvd_title", $json, 60);
         }
-        $rottentomatoes = json_decode($json);
-        $movies = $rottentomatoes->movies;
 
-        foreach ($movies as $movie) {
-            if (trim(strtolower($movie->title)) == strtolower(trim(urldecode($dvd_title)))) {
+
+
+        foreach ($rottentomatoes->movies as $movie)
+        {
+            if (strtolower(trim($movie->title)) == strtolower(trim($dvd_title)))
+            {
                 return $movie;
             }
         }
-
+        //return null;
     }
 
 }
